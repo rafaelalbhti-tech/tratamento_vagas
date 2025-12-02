@@ -9,12 +9,16 @@ df = pd.read_json(
 #renomeando a coluna
 df.rename(columns={'Data de Inclus\u00e3o': 'Data'}, inplace=True)
 
+#Substituir valores não informados
+df = df.replace('Não-Informado', '')
+
 #filtrando apenas as colunas de interesse
 colunas_interesse = ['Area', 'Empresa', 'Cidade', 'Link', 'Data']
 
 #Criando o dataframe filtrado
 df_filtrado = df[colunas_interesse].copy()
 
+#convertendo data para datetime
 df_filtrado['Data'] = pd.to_datetime(df_filtrado['Data'], unit='ms', errors='coerce')
 df_filtrado['Data'] = df_filtrado['Data'].dt.strftime('%d/%m/%Y')
 
