@@ -13,7 +13,14 @@ df.rename(columns={'Data de Inclus\u00e3o': 'Data'}, inplace=True)
 colunas_interesse = ['Area', 'Empresa', 'Cidade', 'Link', 'Data']
 
 #Criando o dataframe filtrado
-df_filtrado = df[colunas_interesse]
+df_filtrado = df[colunas_interesse].copy()
+
+df_filtrado['Data'] = pd.to_datetime(df_filtrado['Data'], unit='ms', errors='coerce')
+df_filtrado['Data'] = df_filtrado['Data'].dt.strftime('%d/%m/%Y')
+
+df = df_filtrado
 
 #Salvando o df filtrado
 df.to_json(r'C:\Users\\albuq\Desktop\projetos_avulsos\tratamento_vagas\silver\vagas_.json', orient='records', lines=True)
+
+print(df.head())
